@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-
+use cake\Debugger;
 /**
  * Users Controller
  *
@@ -16,6 +16,33 @@ class UsersController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
+
+    public function beforeFilter(\Cake\Event\Event $event)
+    {
+        $this->Auth->allow(['add']);
+    }
+
+    public function logout()
+    {
+        $this->Flash->success('succefully logged out');
+        return $this->redirect($this->Auth->logout());
+    }
+
+    public function login()
+    {
+        echo "haha";
+        if ($this->request->is('post')){
+            // debug($this->Auth);
+            $user = $this->Auth->identify();
+            if ($user){
+
+                $this->Auth->setUser($user);
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            $this->Flash->error('Your username or password is incorrect.');
+        }
+    }
+
     public function index()
     {
         $users = $this->paginate($this->Users);

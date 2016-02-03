@@ -37,12 +37,37 @@ class AppController extends Controller
      *
      * @return void
      */
+
+    public function isAuthorized($user)
+    {
+        return false;
+    }
+
     public function initialize()
     {
-        parent::initialize();
 
-        $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'authorize' => 'Controller',
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'email',
+                        'password' => 'password'
+                    ]
+                ]
+            ],
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'unauthorizedRedirect' => $this->referer()
+        ]);
+
+        $this->Auth->allow(['display']);
+
+        // $this->loadComponent('RequestHandler');
+
     }
 
     /**
