@@ -43,7 +43,7 @@ class Bookmark extends Entity
             return $string . $tag->title . ', ';
         }, '');
         return trim($str, ', ');
-    };
+    }
 
     protected $_accessible = [
         'user_id' => true,

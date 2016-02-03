@@ -50,16 +50,6 @@ class BookmarksController extends AppController
         return parent::isAuthorized($user);
     }
 
-    public function index()
-    {
-        $this->paginate = [
-            'contain' => ['Users']
-        ];
-        $bookmarks = $this->paginate($this->Bookmarks);
-
-        $this->set(compact('bookmarks'));
-        $this->set('_serialize', ['bookmarks']);
-    }
 
     /**
      * View method
